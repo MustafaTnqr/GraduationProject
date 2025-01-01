@@ -19,4 +19,10 @@ public class CameraFollow : MonoBehaviour
         // 2D oyunlar için Z ekseninde sabit kal
         transform.position = new Vector3(transform.position.x, transform.position.y, -10);
     }
+
+    // Yeni hedef atamak için bir fonksiyon
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+    }
 }
