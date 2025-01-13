@@ -255,7 +255,6 @@ GameObject:
   - component: {fileID: 6962828055983835098}
   - component: {fileID: 3858973665219042375}
   - component: {fileID: 4019788427951250931}
-  - component: {fileID: 6634569626696913809}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -469,19 +468,6 @@ MonoBehaviour:
   healthBar: {fileID: 7286400072124715846}
   healDelay: 5
   healDuration: 7
---- !u!114 &6634569626696913809
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5614522246675661901}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b03e69439b94244dba22dd6216fc41f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainMapSceneName: MainMap
 --- !u!1 &6031645797136686640
 GameObject:
   m_ObjectHideFlags: 0

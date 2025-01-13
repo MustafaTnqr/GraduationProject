@@ -37,4 +37,5 @@ public class PuzzleManager : MonoBehaviour
             portal.SetActive(true); // Portalý aktif et
         }
     }
+    
 }

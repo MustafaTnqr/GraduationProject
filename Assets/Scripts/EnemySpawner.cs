@@ -1,11 +1,10 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemyPrefab; // Spawn edilecek düþman prefab'ý
-    public Transform player; // Karakterin pozisyonu
-    public float spawnRadius = 15f; // Daire çapý (yarýçap)
-    public float minSpawnDistance = 7f; // Minimum spawn mesafesi
+    public List<Transform> spawnPoints; // Belirli spawn noktalarý
     public float spawnInterval = 10f; // Spawn aralýðý
     public int minEnemies = 5; // Minimum spawn edilecek düþman sayýsý
     public int maxEnemies = 10; // Maksimum spawn edilecek düþman sayýsý
@@ -26,22 +25,21 @@ public class EnemySpawner : MonoBehaviour
             return;
         }
 
+        if (spawnPoints.Count == 0)
+        {
+            Debug.LogWarning("Spawn noktalarý belirtilmemiþ!");
+            return;
+        }
+
         int enemyCount = Random.Range(minEnemies, maxEnemies + 1);
 
         for (int i = 0; i < enemyCount; i++)
         {
-            Vector3 spawnPosition;
-
-            // Karaktere olan mesafeyi kontrol ederek geçerli bir pozisyon bul
-            do
-            {
-                Vector2 randomPosition = Random.insideUnitCircle * spawnRadius;
-                spawnPosition = new Vector3(player.position.x + randomPosition.x, player.position.y + randomPosition.y, 0);
-            }
-            while (Vector3.Distance(spawnPosition, player.position) < minSpawnDistance);
+            // Rastgele bir spawn noktasý seç
+            Transform selectedSpawnPoint = spawnPoints[Random.Range(0, spawnPoints.Count)];
 
             // Düþmaný spawn et
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            Instantiate(enemyPrefab, selectedSpawnPoint.position, Quaternion.identity);
         }
     }
 }

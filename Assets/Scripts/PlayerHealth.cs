@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement; // Sahne yükleme için gerekli
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -7,13 +8,15 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 100;
     private float currentHealth;
     private Animator animator;
-    private bool isDead = false;
+    public bool isDead = false;
 
     public Slider healthBar;
     public float healDelay = 5f;
     public float healDuration = 7f;
 
     private float lastDamageTime;
+    public string menuSceneName = "Menu";
+    public float deathDelay = 5f; // Ölümden sonra menüye geçiþ süresi
 
     void Start()
     {
@@ -80,6 +83,9 @@ public class PlayerHealth : MonoBehaviour
             GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             GetComponent<Rigidbody2D>().simulated = false;
         }
+
+        // Ölümden sonra menüye dönme iþlemi
+        Invoke(nameof(LoadMenuScene), deathDelay);
     }
 
     void UpdateHealthBar(bool isHealing)
@@ -98,4 +104,11 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+
+    private void LoadMenuScene()
+    {
+        Debug.Log("Loading Scene: " + menuSceneName);
+        SceneManager.LoadScene(menuSceneName);
+    }
+
 }

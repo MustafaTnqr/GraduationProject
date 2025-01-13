@@ -3,45 +3,60 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 20; // Maksimum can
-    private int currentHealth;  // Þu anki can
+    private int currentHealth; // Þu anki can
     private Animator animator;
     private bool isDead = false; // Ölüm durumu kontrolü
 
     void Start()
     {
-        currentHealth = maxHealth;
+        currentHealth = maxHealth; // Caný maksimum yap
         animator = GetComponent<Animator>();
+
     }
 
     public void TakeDamage(int damage)
     {
         if (isDead) return; // Eðer zaten öldüyse iþlem yapma
 
-        // Caný azalt
-        currentHealth -= damage;
+        currentHealth -= damage; // Caný azalt
+        
 
-        // Ölüm kontrolü
+        // Eðer can sýfýrýn altýna düþtüyse ölümü çaðýr
         if (currentHealth <= 0)
         {
             Die();
         }
     }
+        
 
     void Die()
     {
-        if (isDead) return;
+        if (isDead) return; // Eðer zaten öldüyse iþlem yapma
 
-        isDead = true; // Ölüm durumu iþaretle
-        animator.SetBool("IsDead", true); // Ölüm animasyonunu tetikle
+        isDead = true; // Ölüm durumunu iþaretle
+        
 
-        // Hareketi durdurmak için EnemyMovement scriptini çaðýr
+        // Ölüm animasyonu tetikle
+        if (animator != null)
+        {
+            animator.SetBool("IsDead", true);
+        }
+
+        // Hareketi durdur
         EnemyMovement enemyMovement = GetComponent<EnemyMovement>();
         if (enemyMovement != null)
         {
-            enemyMovement.StopMovement();
+            enemyMovement.enabled = false;
         }
 
-        // Ölüm animasyonu bittikten sonra objeyi sahneden kaldýr
-        Destroy(gameObject, 1.5f); // 1.5 saniye sonra yok et
+        // Collider'ý kapatarak düþmanýn çarpmalara neden olmasýný engelle
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
+
+        // Ölüm animasyonu bitince objeyi sahneden kaldýr
+        Destroy(gameObject, 1f);
     }
 }

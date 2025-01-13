@@ -3,28 +3,23 @@ using UnityEngine.SceneManagement;
 
 public class RuneCollector : MonoBehaviour
 {
-    public string mainMapSceneName = "MainMap"; // Ana haritanýn sahne adý
-    private bool runeCollected = false; // Rün toplandý mý kontrolü
+    public string mainMapSceneName; // Ana map sahne adý
+    public string runeName;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Rune") && !runeCollected)
+        if (collision.CompareTag("Player"))
         {
-            runeCollected = true;
-
-            // Rün toplanýnca nesneyi yok et
-            Destroy(other.gameObject);
-
-            Debug.Log("Rün toplandý!");
-
-            // Ana haritaya dön
-            GoToMainMap();
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.AddRune(runeName); // Rünü ekle
+                Debug.Log($"Rün toplandý: {runeName}");
+                SceneManager.LoadScene(mainMapSceneName); // Ana mape ýþýnla
+            }
+            else
+            {
+                Debug.LogError("GameManager bulunamadý!");
+            }
         }
-    }
-
-    void GoToMainMap()
-    {
-        // Ana haritaya sahneyi yükle
-        SceneManager.LoadScene(mainMapSceneName);
     }
 }
